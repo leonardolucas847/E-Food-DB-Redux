@@ -116,7 +116,7 @@ const Banner = ({ type, nome, tipo, capa }: Props) => {
       >
         <S.CardImagem style={{ backgroundImage: `url(${capa})` }}>
           <div className="container ">
-            <p style={{ fontWeight: '100' }}>{tipo}</p>
+            <p style={{ fontWeight: '300' }}>{tipo}</p>
             <p>{nome}</p>
           </div>
         </S.CardImagem>
