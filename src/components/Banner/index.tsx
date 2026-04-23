@@ -2,6 +2,7 @@ import * as S from './styles'
 import ReactDOM from 'react-dom'
 import { Props as PropsModal } from '../Prato/index'
 import FundoGF from '../../assets/FundoGF.png'
+
 import logo from '../../assets/logo.svg'
 import lixo from '../../assets/LixoCarrinho.png'
 import carrinho from '../../assets/carrinho-vazio.png'
@@ -19,6 +20,9 @@ import {
 
 type Props = {
   type: 'home' | 'perfil'
+  nome?: string
+  tipo?: string
+  capa?: string
 }
 const Modal = ({ isOpen, onClose, children }: PropsModal) => {
   if (!isOpen) return null
@@ -45,7 +49,7 @@ function TamanhoTela() {
   return largura
 }
 
-const Banner = ({ type }: Props) => {
+const Banner = ({ type, nome, tipo, capa }: Props) => {
   const [activeModal, setActiveModal] = useState<
     'carrinho' | 'endereco' | 'pagamento' | 'confirmacao' | null
   >(null)
@@ -110,10 +114,10 @@ const Banner = ({ type }: Props) => {
           height: '162px'
         }}
       >
-        <S.CardImagem>
+        <S.CardImagem style={{ backgroundImage: `url(${capa})` }}>
           <div className="container ">
-            <p style={{ fontWeight: '100' }}>Italiana</p>
-            <p>La Dolce Vita Trattoria</p>
+            <p style={{ fontWeight: '100' }}>{tipo}</p>
+            <p>{nome}</p>
           </div>
         </S.CardImagem>
         <S.Detalhes className="container">

@@ -9,7 +9,12 @@ const Cardapios = () => {
 
   return (
     <>
-      <Banner type="perfil" />
+      <Banner
+        type="perfil"
+        nome={restaurante.titulo}
+        tipo={restaurante.tipo}
+        capa={restaurante.capa}
+      />
       <div>
         <Cardapio title={restaurante.id} menu={restaurante.cardapio} />
       </div>
