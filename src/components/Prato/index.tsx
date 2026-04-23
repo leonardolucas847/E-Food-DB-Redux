@@ -66,11 +66,12 @@ const PratoUnico = ({ nome, descricao, foto, preco, porcao, id }: Prato) => {
           <h2>{nome}</h2>
           <S.DescricaoCardapio
             style={{
-              marginBottom: '48px',
+              marginBottom: '64px',
               WebkitLineClamp: 'unset',
               display: 'block',
               overflow: 'visible',
-              width: '360px'
+              maxWidth: '360px',
+              height: 'auto'
             }}
           >
             {descricao}
