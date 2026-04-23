@@ -4,7 +4,8 @@ import { Props as PropsModal } from '../Prato/index'
 import FundoGF from '../../assets/FundoGF.png'
 import logo from '../../assets/logo.svg'
 import lixo from '../../assets/LixoCarrinho.png'
-import { useState } from 'react'
+import carrinho from '../../assets/carrinho-vazio.png'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectItens,
@@ -31,6 +32,18 @@ const Modal = ({ isOpen, onClose, children }: PropsModal) => {
     document.body
   )
 }
+function TamanhoTela() {
+  const [largura, setLargura] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const redimensiona = () => setLargura(window.innerWidth)
+
+    window.addEventListener('resize', redimensiona)
+    return () => window.removeEventListener('resize', redimensiona)
+  }, [])
+
+  return largura
+}
 
 const Banner = ({ type }: Props) => {
   const [activeModal, setActiveModal] = useState<
@@ -55,6 +68,27 @@ const Banner = ({ type }: Props) => {
   const orderId = useSelector(selectOrderId)
   const numeroDeItensNoCarrinho = useSelector(selectNumeroDeItensNoCarrinho)
   const totalPrecos = useSelector(selectSomarPrecos)
+  const RenderizaCarrinho = () => {
+    const largura = TamanhoTela()
+    const telaPequena = largura < 768
+
+    return (
+      <div>
+        {telaPequena && (
+          <span
+            style={{ display: 'flex', alignItems: 'center', fontSize: '20px' }}
+          >
+            {numeroDeItensNoCarrinho}
+            -
+            <img src={carrinho} alt="Carrinho" style={{ width: '24px' }} />
+          </span>
+        )}
+        {!telaPequena && (
+          <span>{numeroDeItensNoCarrinho} - produto(s) no carrinho</span>
+        )}
+      </div>
+    )
+  }
   if (type === 'home') {
     return (
       <S.BannerLayout style={{ backgroundImage: `url(${FundoGF})` }}>
@@ -87,8 +121,11 @@ const Banner = ({ type }: Props) => {
             Restaurantes
           </S.VoltarHome>
           <S.LogoEfood src={`${logo}`} />
-          <S.Carrinho onClick={openCart}>
-            {numeroDeItensNoCarrinho} - produto(s) no carrinho
+          <S.Carrinho
+            onClick={openCart}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            <RenderizaCarrinho />
           </S.Carrinho>
         </S.Detalhes>
       </S.BannerLayout>

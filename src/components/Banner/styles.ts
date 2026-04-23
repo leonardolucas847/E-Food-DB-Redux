@@ -98,7 +98,7 @@ export const Carrinho = styled.button`
   width: auto;
 
   @media (max-width: 1024px) {
-    padding-right: 8px;
+    margin-right: 24px;
   }
 `
 export const VoltarHome = styled(Link)`
@@ -134,6 +134,7 @@ export const ModalContainer = styled.div`
   top: 0;
   right: 0;
   height: 100vh;
+
   width: 400px;
   background-color: ${cores.vermelho};
   padding-top: 16px;
@@ -145,7 +146,10 @@ export const ModalContainer = styled.div`
   z-index: 1001;
 
   @media (max-width: 1024px) {
+    position: relative;
     width: 100%;
+    margin-right: 16px;
+    padding: 8px;
   }
   .Next {
     cursor: pointer;
