@@ -1,6 +1,6 @@
 import { styled } from 'styled-components'
 import { cores } from '../../styles'
-import imagemBaner from '../../assets/imagem-do-baner.png'
+
 import { Link } from 'react-router-dom'
 export const BannerLayout = styled.section`
   width: 100%;
@@ -22,8 +22,8 @@ export const CardImagem = styled.div`
   width: 100%;
   height: 280px;
 
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('${imagemBaner}');
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
