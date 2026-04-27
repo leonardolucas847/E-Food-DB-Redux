@@ -1,7 +1,10 @@
 import * as S from './styles'
+import ReactDOM from 'react-dom'
+import { Props as PropsModal } from '../Prato/index'
 import FundoGF from '../../assets/FundoGF.png'
 
 import logo from '../../assets/logo.svg'
+import lixo from '../../assets/LixoCarrinho.png'
 import carrinho from '../../assets/carrinho-vazio.png'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,6 +27,18 @@ type Props = {
   nome?: string
   tipo?: string
   capa?: string
+}
+const Modal = ({ isOpen, onClose, children }: PropsModal) => {
+  if (!isOpen) return null
+
+  return ReactDOM.createPortal(
+    <S.Overlay onClick={onClose}>
+      <S.ModalContainer onClick={(e) => e.stopPropagation()}>
+        {children}
+      </S.ModalContainer>
+    </S.Overlay>,
+    document.body
+  )
 }
 function TamanhoTela() {
   const [largura, setLargura] = useState(window.innerWidth)
@@ -127,8 +142,8 @@ const Banner = ({ type, nome, tipo, capa }: Props) => {
         onClose={closeModal}
         itens={itens}
         totalPrecos={totalPrecos}
-        removeItem={(index) => dispatch(removerItem(index))}
         onNext={openAddress}
+        removeItem={(index) => dispatch(removerItem(index))}
       />
       <EnderecoModal
         isOpen={activeModal === 'endereco'}
