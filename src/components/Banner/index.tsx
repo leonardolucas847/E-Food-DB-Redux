@@ -1,10 +1,9 @@
 import * as S from './styles'
-import ReactDOM from 'react-dom'
-import { Props as PropsModal } from '../Prato/index'
+
 import FundoGF from '../../assets/FundoGF.png'
 
 import logo from '../../assets/logo.svg'
-import lixo from '../../assets/LixoCarrinho.png'
+
 import carrinho from '../../assets/carrinho-vazio.png'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,18 +27,31 @@ type Props = {
   tipo?: string
   capa?: string
 }
-const Modal = ({ isOpen, onClose, children }: PropsModal) => {
-  if (!isOpen) return null
-
-  return ReactDOM.createPortal(
-    <S.Overlay onClick={onClose}>
-      <S.ModalContainer onClick={(e) => e.stopPropagation()}>
-        {children}
-      </S.ModalContainer>
-    </S.Overlay>,
-    document.body
-  )
+export type Dados = {
+  prducts: [{ id: number; price: number }]
+  deliviry: {
+    receiver: string
+    address: {
+      description: string
+      city: string
+      zipCode: string
+      number: number
+      comprement: string
+    }
+  }
+  payment: {
+    card: {
+      number: string
+      name: string
+      code: number
+      expires: {
+        month: number
+        year: number
+      }
+    }
+  }
 }
+
 function TamanhoTela() {
   const [largura, setLargura] = useState(window.innerWidth)
 
@@ -54,6 +66,13 @@ function TamanhoTela() {
 }
 
 const Banner = ({ type, nome, tipo, capa }: Props) => {
+  const [dadosDoCliente, setDadosDoCliente] = useState<Dados>()
+  useEffect(() => {
+    fetch('https://api-ebac.vercel.app/api/efood/restaurantes')
+      .then((res) => res.json())
+      .then((res) => setMelhoresRestaurantes(res))
+  }, [])
+
   const [activeModal, setActiveModal] = useState<
     'carrinho' | 'endereco' | 'pagamento' | 'confirmacao' | null
   >(null)
