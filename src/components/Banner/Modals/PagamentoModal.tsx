@@ -3,9 +3,10 @@ import * as S from '../styles'
 import Modal from './Modal'
 import * as Yup from 'yup'
 import { DadosState } from '../../../store/slices/dadosSlice'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Deliviry, useDadosMutation } from '../../api/apiDados'
 import { Prato } from '../../Restaurantes'
+import { finalizarPedido } from '../../../store/slices/carrinhoSlice'
 type PagamentoModalProps = {
   isOpen: boolean
   onClose: () => void
@@ -22,6 +23,7 @@ const PagamentoModal = ({
   onBack
 }: PagamentoModalProps) => {
   const [dados] = useDadosMutation()
+  const dispatch = useDispatch()
   const itens = useSelector(
     (state: { carrinho: { itens: Prato[] } }) => state.carrinho.itens
   )
@@ -66,7 +68,7 @@ const PagamentoModal = ({
         }
       }).then((res) => {
         if ('data' in res) {
-          console.log(JSON.stringify(res.data, null, 2))
+          dispatch(finalizarPedido())
           onConfirm(res.data, select)
         }
       })

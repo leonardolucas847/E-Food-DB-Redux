@@ -12,7 +12,6 @@ import {
   selectNumeroDeItensNoCarrinho,
   selectSomarPrecos,
   removerItem,
-  finalizarPedido,
   voltarHome
 } from '../../store/slices/carrinhoSlice'
 import CarrinhoModal from './Modals/CarrinhoModal'
@@ -140,6 +139,7 @@ const Banner = ({ type, nome, tipo, capa }: Props) => {
             entrega,
             produtos: itens.map((item) => ({ id: item.id, price: item.preco }))
           })
+
           setActiveModal('confirmacao')
         }}
         onBack={openAddress}

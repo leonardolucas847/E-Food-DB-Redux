@@ -1,5 +1,3 @@
-import { useSelector } from 'react-redux'
-import { Prato } from '../../Restaurantes'
 import * as S from '../styles'
 import Modal from './Modal'
 
@@ -14,9 +12,6 @@ const ConfirmacaoModal = ({
   onClose,
   pedido
 }: ConfirmacaoModalProps) => {
-  const itens = useSelector(
-    (state: { carrinho: { itens: Prato[] } }) => state.carrinho.itens
-  )
   if (!pedido) return null
   const total = pedido.produtos.reduce(
     (acc: number, item: { id: number; price: number }) => acc + item.price,
