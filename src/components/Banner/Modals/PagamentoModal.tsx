@@ -72,7 +72,10 @@ const PagamentoModal = ({
       })
     }
   })
-
+  const getError = (field: keyof typeof form.values) =>
+    form.touched[field] && form.errors[field] ? (
+      <small>{form.errors[field]}</small>
+    ) : null
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.ModalTitulo>
@@ -87,7 +90,9 @@ const PagamentoModal = ({
             name="nome"
             value={form.values.nome}
             onChange={form.handleChange}
+            onBlur={form.handleBlur}
           />
+          {getError('nome')}
         </S.Campo>
         <S.CampoNumber>
           <S.Campo>
@@ -98,7 +103,9 @@ const PagamentoModal = ({
               name="numberoCartao"
               value={form.values.numberoCartao}
               onChange={form.handleChange}
+              onBlur={form.handleBlur}
             />
+            {getError('numberoCartao')}
           </S.Campo>
           <S.Campo>
             <label htmlFor="cvv">CVV</label>
@@ -108,7 +115,9 @@ const PagamentoModal = ({
               name="cvv"
               value={form.values.cvv}
               onChange={form.handleChange}
+              onBlur={form.handleBlur}
             />
+            {getError('cvv')}
           </S.Campo>
         </S.CampoNumber>
 
@@ -121,7 +130,9 @@ const PagamentoModal = ({
               name="mesVenc"
               value={form.values.mesVenc}
               onChange={form.handleChange}
+              onBlur={form.handleBlur}
             />
+            {getError('mesVenc')}
           </S.Campo>
           <S.Campo>
             <label htmlFor="AVenc">Ano de vencimento</label>
@@ -131,7 +142,9 @@ const PagamentoModal = ({
               name="anoVenc"
               value={form.values.anoVenc}
               onChange={form.handleChange}
+              onBlur={form.handleBlur}
             />
+            {getError('anoVenc')}
           </S.Campo>
         </S.CampoNumber>
         <S.Buttons>

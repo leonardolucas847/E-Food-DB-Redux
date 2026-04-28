@@ -53,7 +53,10 @@ const EnderecoModal = ({
       onNext()
     }
   })
-
+  const getError = (field: keyof typeof form.values) =>
+    form.touched[field] && form.errors[field] ? (
+      <small>{form.errors[field]}</small>
+    ) : null
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <S.ModalTitulo>Entrega</S.ModalTitulo>
@@ -66,7 +69,9 @@ const EnderecoModal = ({
             name="nome"
             value={form.values.nome}
             onChange={form.handleChange}
+            onBlur={form.handleBlur}
           />
+          {getError('nome')}
         </S.Campo>
         <S.Campo>
           <label htmlFor="endereco">Endereço de entrega</label>
@@ -76,7 +81,9 @@ const EnderecoModal = ({
             name="endereco"
             value={form.values.endereco}
             onChange={form.handleChange}
+            onBlur={form.handleBlur}
           />
+          {getError('endereco')}
         </S.Campo>
         <S.Campo>
           <label htmlFor="cidade">Cidade</label>
@@ -86,7 +93,9 @@ const EnderecoModal = ({
             name="cidade"
             value={form.values.cidade}
             onChange={form.handleChange}
+            onBlur={form.handleBlur}
           />
+          {getError('cidade')}
         </S.Campo>
         <S.CampoNumber>
           <S.Campo>
@@ -97,7 +106,9 @@ const EnderecoModal = ({
               name="cep"
               value={form.values.cep}
               onChange={form.handleChange}
+              onBlur={form.handleBlur}
             />
+            {getError('cep')}
           </S.Campo>
           <S.Campo>
             <label htmlFor="telefone">Telefone</label>
@@ -107,7 +118,9 @@ const EnderecoModal = ({
               name="telefone"
               value={form.values.telefone}
               onChange={form.handleChange}
+              onBlur={form.handleBlur}
             />
+            {getError('telefone')}
           </S.Campo>
         </S.CampoNumber>
         <S.Campo>
