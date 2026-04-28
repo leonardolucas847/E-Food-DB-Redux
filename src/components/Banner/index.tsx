@@ -41,6 +41,7 @@ function TamanhoTela() {
 
 const Banner = ({ type, nome, tipo, capa }: Props) => {
   const dispatch = useDispatch()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [pedidoConfirmado, setPedidoConfirmado] = useState<any>(null)
   const [activeModal, setActiveModal] = useState<
     'carrinho' | 'endereco' | 'pagamento' | 'confirmacao' | null

@@ -4,6 +4,7 @@ import Modal from './Modal'
 type ConfirmacaoModalProps = {
   isOpen: boolean
   onClose: () => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   pedido: any
 }
 

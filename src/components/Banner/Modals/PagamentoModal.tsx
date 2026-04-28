@@ -11,6 +11,7 @@ type PagamentoModalProps = {
   isOpen: boolean
   onClose: () => void
   totalPrecos: number
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onConfirm: (data: any, entrega: Deliviry) => void
   onBack: () => void
 }
