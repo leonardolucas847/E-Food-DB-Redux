@@ -24,7 +24,6 @@ const MRestaurante = ({
   avaliacao,
   tipo
 }: Restaurant) => {
-  console.log('destacado:', destacado, typeof destacado)
   return (
     <Card>
       <Image style={{ backgroundImage: `url(${capa})`, height: '217px' }}>

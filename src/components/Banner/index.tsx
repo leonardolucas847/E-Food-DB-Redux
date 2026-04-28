@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectItens,
-  selectOrderId,
   selectNumeroDeItensNoCarrinho,
   selectSomarPrecos,
   removerItem,
@@ -27,30 +26,6 @@ type Props = {
   tipo?: string
   capa?: string
 }
-export type Dados = {
-  prducts: [{ id: number; price: number }]
-  deliviry: {
-    receiver: string
-    address: {
-      description: string
-      city: string
-      zipCode: string
-      number: number
-      comprement: string
-    }
-  }
-  payment: {
-    card: {
-      number: string
-      name: string
-      code: number
-      expires: {
-        month: number
-        year: number
-      }
-    }
-  }
-}
 
 function TamanhoTela() {
   const [largura, setLargura] = useState(window.innerWidth)
@@ -66,13 +41,8 @@ function TamanhoTela() {
 }
 
 const Banner = ({ type, nome, tipo, capa }: Props) => {
-  const [dadosDoCliente, setDadosDoCliente] = useState<Dados>()
-  useEffect(() => {
-    fetch('https://api-ebac.vercel.app/api/efood/restaurantes')
-      .then((res) => res.json())
-      .then((res) => setMelhoresRestaurantes(res))
-  }, [])
-
+  const dispatch = useDispatch()
+  const [pedidoConfirmado, setPedidoConfirmado] = useState<any>(null)
   const [activeModal, setActiveModal] = useState<
     'carrinho' | 'endereco' | 'pagamento' | 'confirmacao' | null
   >(null)
@@ -80,19 +50,9 @@ const Banner = ({ type, nome, tipo, capa }: Props) => {
   const openCart = () => setActiveModal('carrinho')
   const openAddress = () => setActiveModal('endereco')
   const openPayment = () => setActiveModal('pagamento')
-  const openConfirmation = () => setActiveModal('confirmacao')
   const closeModal = () => setActiveModal(null)
-  const Conclusao = () => {
-    closeModal()
-    alert('Pedido finalizado com sucesso!')
-  }
-  const ConfirmClick = () => {
-    dispatch(finalizarPedido())
-    openConfirmation()
-  }
-  const dispatch = useDispatch()
+
   const itens = useSelector(selectItens)
-  const orderId = useSelector(selectOrderId)
   const numeroDeItensNoCarrinho = useSelector(selectNumeroDeItensNoCarrinho)
   const totalPrecos = useSelector(selectSomarPrecos)
   const RenderizaCarrinho = () => {
@@ -174,14 +134,20 @@ const Banner = ({ type, nome, tipo, capa }: Props) => {
         isOpen={activeModal === 'pagamento'}
         onClose={closeModal}
         totalPrecos={totalPrecos}
-        onConfirm={ConfirmClick}
+        onConfirm={(data, entrega) => {
+          setPedidoConfirmado({
+            ...data,
+            entrega,
+            produtos: itens.map((item) => ({ id: item.id, price: item.preco }))
+          })
+          setActiveModal('confirmacao')
+        }}
         onBack={openAddress}
       />
       <ConfirmacaoModal
         isOpen={activeModal === 'confirmacao'}
         onClose={closeModal}
-        orderId={orderId}
-        onConclusion={Conclusao}
+        pedido={pedidoConfirmado}
       />
     </>
   )

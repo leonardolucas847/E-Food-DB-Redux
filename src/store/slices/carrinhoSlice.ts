@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Prato } from '../../components/Restaurantes'
-
 interface CarrinhoState {
   itens: Prato[]
   orderId: string
@@ -22,9 +21,10 @@ const carrinhoSlice = createSlice({
       state.itens.splice(action.payload, 1)
     },
     finalizarPedido: (state) => {
-      const id = `${Math.random().toString(36).substring(2, 8).toUpperCase()}`
-      state.orderId = id
       state.itens = []
+    },
+    setIdPedido: (state, action: PayloadAction<string>) => {
+      state.orderId = action.payload
     },
     voltarHome: (state) => {
       state.itens = []
@@ -40,6 +40,7 @@ export const {
   removerItem,
   finalizarPedido,
   voltarHome,
+  setIdPedido,
   limparOrderId
 } = carrinhoSlice.actions
 
