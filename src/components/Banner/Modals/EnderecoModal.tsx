@@ -2,6 +2,8 @@ import { useFormik } from 'formik'
 import * as S from '../styles'
 import Modal from './Modal'
 import * as Yup from 'yup'
+
+import InputMask from 'react-input-mask'
 import { useDispatch } from 'react-redux'
 import { setDados } from '../../../store/slices/dadosSlice'
 type EnderecoModalProps = {
@@ -25,7 +27,7 @@ const EnderecoModal = ({
       endereco: '',
       cidade: '',
       cep: '',
-      telefone: '',
+      num: '',
       complemento: ''
     },
     validationSchema: Yup.object({
@@ -33,10 +35,10 @@ const EnderecoModal = ({
       endereco: Yup.string().required('Campo obrigatório'),
       cidade: Yup.string().required('Campo obrigatório'),
       cep: Yup.string()
-        .min(7, 'O campo precisa ter 7 caracteres')
-        .max(8, 'O campo precisa ter 8 caracteres')
+        .min(9, 'O campo precisa ter 8 caracteres')
+        .max(9, 'O campo precisa ter 8 caracteres')
         .required('Campo obrigatório'),
-      telefone: Yup.string().required('Campo obrigatório')
+      num: Yup.string().required('Campo obrigatório')
     }),
     onSubmit: (values) => {
       const payload = {
@@ -45,7 +47,7 @@ const EnderecoModal = ({
           description: values.endereco,
           city: values.cidade,
           zipCode: values.cep,
-          number: Number(values.telefone),
+          number: Number(values.num),
           complement: values.complemento
         }
       }
@@ -100,10 +102,12 @@ const EnderecoModal = ({
         <S.CampoNumber>
           <S.Campo>
             <label htmlFor="cep">CEP</label>
-            <input
+            <InputMask
+              mask="99999-999"
               id="cep"
               type="text"
               name="cep"
+              maskChar={null}
               value={form.values.cep}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
@@ -111,16 +115,16 @@ const EnderecoModal = ({
             {getError('cep')}
           </S.Campo>
           <S.Campo>
-            <label htmlFor="telefone">Telefone</label>
+            <label htmlFor="num">Número</label>
             <input
-              id="telefone"
+              id="num"
               type="text"
-              name="telefone"
-              value={form.values.telefone}
+              name="num"
+              value={form.values.num}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />
-            {getError('telefone')}
+            {getError('num')}
           </S.Campo>
         </S.CampoNumber>
         <S.Campo>

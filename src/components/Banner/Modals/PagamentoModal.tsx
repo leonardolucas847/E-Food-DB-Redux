@@ -2,6 +2,7 @@ import { useFormik } from 'formik'
 import * as S from '../styles'
 import Modal from './Modal'
 import * as Yup from 'yup'
+import InputMask from 'react-input-mask'
 import { DadosState } from '../../../store/slices/dadosSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Deliviry, useDadosMutation } from '../../api/apiDados'
@@ -39,10 +40,19 @@ const PagamentoModal = ({
     },
     validationSchema: Yup.object({
       nome: Yup.string().required('Campo obrigatório'),
-      numberoCartao: Yup.string().required('Campo obrigatório'),
-      cvv: Yup.string().required('Campo obrigatório'),
-      mesVenc: Yup.string().required('Campo obrigatório'),
-      anoVenc: Yup.string().required('Campo obrigatório')
+      numberoCartao: Yup.string()
+        .matches(/^\d{4} \d{4} \d{4} \d{4}$/, 'numero de cartao inválido')
+        .required('Campo obrigatório'),
+      cvv: Yup.string()
+        .matches(/^\d{3}$/, 'o campo precisa ter exatamente 3 dígitos')
+        .required('Campo obrigatório'),
+      mesVenc: Yup.number()
+        .min(1, 'Mínimo é 1')
+        .max(12, 'Mês inválido')
+        .required('Campo obrigatório'),
+      anoVenc: Yup.number()
+        .min(2026, 'Ano de vencimento deve ser 2026 ou posterior')
+        .required('Campo obrigatório')
     }),
     onSubmit: (values) => {
       if (!select) {
@@ -100,22 +110,28 @@ const PagamentoModal = ({
         <S.CampoNumber>
           <S.Campo>
             <label htmlFor="numb">Número do cartão</label>
-            <input
+            <InputMask
+              mask="9999 9999 9999 9999"
               id="numb"
               type="text"
               name="numberoCartao"
+              maskChar={null}
               value={form.values.numberoCartao}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
+              placeholder="0000 0000 0000 0000"
             />
             {getError('numberoCartao')}
           </S.Campo>
           <S.Campo>
             <label htmlFor="cvv">CVV</label>
-            <input
+            <InputMask
+              mask="999"
               id="cvv"
               type="text"
               name="cvv"
+              maskChar={null}
+              placeholder="000"
               value={form.values.cvv}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
@@ -127,10 +143,13 @@ const PagamentoModal = ({
         <S.CampoNumber>
           <S.Campo>
             <label htmlFor="MVenc">Mês de vencimento</label>
-            <input
+            <InputMask
+              mask="99"
               id="MVenc"
               type="text"
               name="mesVenc"
+              maskChar={null}
+              placeholder="00"
               value={form.values.mesVenc}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
@@ -139,10 +158,13 @@ const PagamentoModal = ({
           </S.Campo>
           <S.Campo>
             <label htmlFor="AVenc">Ano de vencimento</label>
-            <input
+            <InputMask
+              mask="9999"
               id="AVenc"
               type="text"
               name="anoVenc"
+              maskChar={null}
+              placeholder="0000"
               value={form.values.anoVenc}
               onChange={form.handleChange}
               onBlur={form.handleBlur}

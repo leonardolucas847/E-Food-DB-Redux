@@ -46,9 +46,9 @@ const ConfirmacaoModal = ({
       <S.P>
         <S.P>Recebedor: {pedido.entrega.receiver}</S.P>
         <S.P>
-          Endereço: {pedido.entrega.address.description} —
-          {pedido.entrega.address.complement} <br /> Telefone :{' '}
-          {pedido.entrega.address.number}
+          Endereço: {pedido.entrega.address.description} — Número :{' '}
+          {pedido.entrega.address.number} <br />
+          Complemento: {pedido.entrega.address.complement}
         </S.P>
         <S.P>
           Cidade: {pedido.entrega.address.city} — CEP:{' '}
